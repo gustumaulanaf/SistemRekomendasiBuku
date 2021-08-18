@@ -1,6 +1,9 @@
 from flask import Flask, jsonify,request
 from flask_restful import Resource, Api, reqparse
+import flask_sqlalchemy as sql
 import pandas as pd
+import matplotlib.pyplot as plt
+
 BOOKS = "BX-Books.csv"
 data = pd.read_csv(BOOKS, sep=';', error_bad_lines=False,encoding="latin-1")
 app = Flask(__name__)
@@ -22,6 +25,14 @@ class read_Delete(Resource):
     # GET request on the url will hit this function
     @app.route("/books")
     def get():
+        plt.rc("font", size=15)
+        ratings.bookRating.value_counts(sort=False).plot(kind='bar')
+        plt.title('Rating Distribution\n')
+        plt.xlabel('Rating')
+        plt.ylabel('Count')
+        plt.savefig('system1.png', bbox_inches='tight')
+        plt.show()
+        
         isbn = request.args.get("isbn")
         title = request.args.get("title")
         author = request.args.get("author")
@@ -40,7 +51,7 @@ class read_Delete(Resource):
 
         # find data from csv based on user input
         # return data found in csv
-        return data_fount
+        return plt.show()
     # Delete request on the url will hit this function
     # def delete(self,ISBN):
     #     if ((self.data['ISBN'] == ISBN).any()):
