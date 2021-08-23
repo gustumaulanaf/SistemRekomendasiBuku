@@ -3,9 +3,20 @@ from flask_restful import Resource, Api, reqparse
 import flask_sqlalchemy as sql
 import pandas as pd
 import matplotlib.pyplot as plt
-
+import base64
 BOOKS = "BX-Books.csv"
 data = pd.read_csv(BOOKS, sep=';', error_bad_lines=False,encoding="latin-1")
+ratings = pd.read_csv('BX-Book-Ratings.csv', sep=';', error_bad_lines=False, encoding="latin-1")
+ratings.columns = ['userID', 'ISBN', 'bookRating']
+plt.rc("font", size=15)
+ratings.bookRating.value_counts(sort=False).plot(kind='bar')
+plt.title('Rating Distribution\n')
+plt.xlabel('Rating')
+plt.ylabel('Count')
+plt.savefig('mbuh.png', bbox_inches='tight')
+
+with open("mbuh.png", "rb") as img_file:
+    b64_string = base64.b64encode(img_file.read())
 app = Flask(__name__)
 api = Api(app)
 data_arg = reqparse.RequestParser()
@@ -24,19 +35,12 @@ class read_Delete(Resource):
 
     # GET request on the url will hit this function
     @app.route("/books")
-    def get():
-        plt.rc("font", size=15)
-        ratings.bookRating.value_counts(sort=False).plot(kind='bar')
-        plt.title('Rating Distribution\n')
-        plt.xlabel('Rating')
-        plt.ylabel('Count')
-        plt.savefig('system1.png', bbox_inches='tight')
-        plt.show()
-        
+    def get():    
         isbn = request.args.get("isbn")
         title = request.args.get("title")
         author = request.args.get("author")
         year = request.args.get("year")
+        
         data_fount:str
         if isbn :
          data_fount=data.loc[data["ISBN"] == isbn].to_json(orient="records")
@@ -51,7 +55,7 @@ class read_Delete(Resource):
 
         # find data from csv based on user input
         # return data found in csv
-        return plt.show()
+        return data_fount
     # Delete request on the url will hit this function
     # def delete(self,ISBN):
     #     if ((self.data['ISBN'] == ISBN).any()):
