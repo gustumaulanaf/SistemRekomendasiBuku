@@ -17,21 +17,21 @@ import matplotlib.pyplot as plt
 app = Flask(__name__)
 api = Api(app)
 
-# conn = psycopg2.connect(
-#     host="ec2-44-194-225-27.compute-1.amazonaws.com",
-#     database="deeu0ul4vjsdi4",
-#     port = "5432",
-#     user ="qkwikqxuzcsmfu",
-#     password="8888ead936d03fabd6e7b60da58d0a7686c31592397689ef5d1bb0bc7c9644ca"
-# )
-userid =0
 conn = psycopg2.connect(
-    host="localhost",
-    database="sistem_rekomendasi_buku",
+    host="ec2-44-194-225-27.compute-1.amazonaws.com",
+    database="deeu0ul4vjsdi4",
     port = "5432",
-    user ="postgres",
-    password=""
+    user ="qkwikqxuzcsmfu",
+    password="8888ead936d03fabd6e7b60da58d0a7686c31592397689ef5d1bb0bc7c9644ca"
 )
+userid =0
+# conn = psycopg2.connect(
+#     host="localhost",
+#     database="sistem_rekomendasi_buku",
+#     port = "5432",
+#     user ="postgres",
+#     password=""
+# )
 cur = conn.cursor()
  #diagram distribusi rating pada tabel bx_ratings
 ratings= pd.read_sql('SELECT * FROM bx_ratings a ORDER BY a.id ASC', con=conn)
