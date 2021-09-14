@@ -35,28 +35,28 @@ userid =0
 cur = conn.cursor()
  #diagram distribusi rating pada tabel bx_ratings
 ratings= pd.read_sql('SELECT * FROM bx_ratings a ORDER BY a.id ASC', con=conn)
-plt.rc("font", size=15)
-ratings['book_rating'].value_counts(sort=False).plot(kind='bar')
-plt.title('Distribusi Rating\n')
-plt.xlabel('Rating')
-plt.ylabel('Jumlah')
-plt.savefig('rating.png', bbox_inches='tight')
-with open("rating.png", "rb") as img_file:
-    rating_string = base64.b64encode(img_file.read())
+# plt.rc("font", size=15)
+# ratings['book_rating'].value_counts(sort=False).plot(kind='bar')
+# plt.title('Distribusi Rating\n')
+# plt.xlabel('Rating')
+# plt.ylabel('Jumlah')
+# plt.savefig('rating.png', bbox_inches='tight')
+# with open("rating.png", "rb") as img_file:
+#     rating_string = base64.b64encode(img_file.read())
 
-  #memanggil tabel dari postgresql
-# buku = pd.read_sql('SELECT * FROM bx_books a ORDER BY a.id ASC LIMIT 100', con=conn)
-# ratings= pd.read_sql('SELECT * FROM bx_ratings a ORDER BY a.id ASC', con=conn)
-users =pd.read_sql('SELECT * FROM bx_users a WHERE location LIKE %s ORDER BY a.id ASC', con=conn,params=("%"+"usa"+"%",))
-#diagram distribusi usia pada tabel bx_users
-plt.rc("font", size=15)
-users['age'].value_counts(sort=False).plot(kind='bar')
-plt.title('Distribusi Usia\n')
-plt.xlabel('Usia')
-plt.ylabel('Jumlah')
-plt.savefig('usia.png', bbox_inches='tight')
-with open("usia.png", "rb") as img_file:
-    age_string = base64.b64encode(img_file.read())
+#   #memanggil tabel dari postgresql
+# # buku = pd.read_sql('SELECT * FROM bx_books a ORDER BY a.id ASC LIMIT 100', con=conn)
+# # ratings= pd.read_sql('SELECT * FROM bx_ratings a ORDER BY a.id ASC', con=conn)
+# users =pd.read_sql('SELECT * FROM bx_users a WHERE location LIKE %s ORDER BY a.id ASC', con=conn,params=("%"+"usa"+"%",))
+# #diagram distribusi usia pada tabel bx_users
+# plt.rc("font", size=15)
+# users['age'].value_counts(sort=False).plot(kind='bar')
+# plt.title('Distribusi Usia\n')
+# plt.xlabel('Usia')
+# plt.ylabel('Jumlah')
+# plt.savefig('usia.png', bbox_inches='tight')
+# with open("usia.png", "rb") as img_file:
+#     age_string = base64.b64encode(img_file.read())
 # buku yang direkomendasikan
 # membuat api untuk digunakan pada android
 class api(Resource):
@@ -239,15 +239,15 @@ class api(Resource):
         prediksi = pred.reshape(1,-1)
         # rms = mean_squared_error(actual, prediksi, squared=False)
         return json.dumps(rekomendasi_list)
-    @app.route("/distribusi_usia",methods=['GET','POST'])
-    def distribusi_usia():
-        data = {'gambar':age_string.decode('utf-8')}
-        return jsonify(data)
+    # @app.route("/distribusi_usia",methods=['GET','POST'])
+    # def distribusi_usia():
+    #     data = {'gambar':age_string.decode('utf-8')}
+    #     return jsonify(data)
     
-    @app.route("/distribusi_rating",methods=['GET','POST'])
-    def distribusi_rating():
-        data = {'rating':rating_string.decode('utf-8')}
-        return jsonify(data)
+    # @app.route("/distribusi_rating",methods=['GET','POST'])
+    # def distribusi_rating():
+    #     data = {'rating':rating_string.decode('utf-8')}
+    #     return jsonify(data)
     @app.route("/rekomendasi_negara",methods=['GET','POST'])
     def rekomendasi_negara():
         negara = request.args.get('negara')
